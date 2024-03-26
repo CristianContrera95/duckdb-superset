@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: duckdb-deployment
+  labels:
+    app: duckdb-app
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: duckdb-app
+
+  template:
+    metadata:
+      labels:
+        app: duckdb-app
+    spec:
+      containers:
+        - name: duckdb-image
+          image: {{ .Values.image.repository }}
+          ports:
+            - containerPort: {{ .Values.image.args.port }}
+          env:
+            - name: "FLIGHT_PASSWORD"
+              value: {{ quote .Values.image.args.password }}
+            - name: "TLS_ENABLED"
+              value: {{ quote .Values.image.args.tsl }}
+            - name: "PRINT_QUERIES"
+              value: {{ quote .Values.image.args.print_queries }}
+          args:
+            - --interactive
+            - --rm
+            - --tty
+            - --init
+            - --backend {{ .Values.image.args.backend }}
+            - --publish 31337:{{ .Values.image.args.port }}

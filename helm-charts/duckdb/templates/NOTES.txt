@@ -1,0 +1,31 @@
+DuckDB installed!
+
+Follow next command to connect Flight-DuckDB server:
+
+echo "grpc+tls://localhost:31337 to use DuckDB"
+export POD_NAME=$(kubectl get pods --namespace default -o jsonpath="{.items[0].metadata.name}")
+kubectl port-forward $POD_NAME 31337:31337 --namespace default
+
+
+Python 3.9+
+
+pip install pandas pyarrow adbc_driver_flightsql
+
+'''
+from adbc_driver_flightsql import dbapi as flight_sql, DatabaseOptions
+
+flight_password = "flight_password" # Use an env var in production code!
+
+
+with flight_sql.connect(uri="grpc+tls://localhost:31337",
+                        db_kwargs={"username": "flight_username",
+                                   "password": flight_password,
+                                   DatabaseOptions.TLS_SKIP_VERIFY.value: "true" # Not needed if you use a trusted CA-signed TLS cert
+                                   }
+                        ) as conn:
+   with conn.cursor() as cur:
+       cur.execute("SHOW TABLES")
+       x = cur.fetch_arrow_table()
+       print(x)
+
+'''

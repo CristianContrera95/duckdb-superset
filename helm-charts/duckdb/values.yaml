@@ -1,0 +1,19 @@
+replicaCount: 1
+
+image:
+  repository: voltrondata/flight-sql:latest
+  pullPolicy: IfNotPresent
+  args:
+    port: 31337
+    tsl: 1 # 1- Enabled / 0- Disable
+    password: flight_password
+    print_queries: 1
+    backend: duckdb  # sqlite
+
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
