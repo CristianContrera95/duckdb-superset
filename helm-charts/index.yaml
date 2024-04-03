@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  duckdb:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-04-03T08:07:49.506923793-03:00"
+    description: A Helm chart for DuckDB on K8s
+    digest: 875eba55f5dfdb1d942f243243ae081bf3260eaa5e2fef29e78f23ee5cfd258e
+    name: duckdb
+    type: application
+    urls:
+    - charts/duckdb-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-04-03T08:07:49.506390577-03:00"
